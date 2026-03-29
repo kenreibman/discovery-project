@@ -34,7 +34,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Refreshing the browser keeps Jessica logged in (session persists)
   4. All traffic between browser and server uses HTTPS — no plain HTTP access possible
   5. Uploaded documents cannot be accessed via public URL by an unauthenticated request
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Project scaffold, database schema, Auth.js configuration, middleware, and test framework
+- [ ] 01-02-PLAN.md — Login page UI with server action and inline error handling
+- [ ] 01-03-PLAN.md — Dashboard shell with sidebar, greeting, drop zone, and visual verification checkpoint
 **UI hint**: yes
 
 ### Phase 2: File Upload
@@ -136,7 +140,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/3 | Planning complete | - |
 | 2. File Upload | 0/TBD | Not started | - |
 | 3. PDF Parsing & Request Extraction | 0/TBD | Not started | - |
 | 4. RFP Response Generation | 0/TBD | Not started | - |
