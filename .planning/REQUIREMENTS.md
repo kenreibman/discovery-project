@@ -106,46 +106,46 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UPLD-01 | TBD | Pending |
-| UPLD-02 | TBD | Pending |
-| UPLD-03 | TBD | Pending |
-| UPLD-04 | TBD | Pending |
-| UPLD-05 | TBD | Pending |
-| UPLD-06 | TBD | Pending |
-| RFP-01 | TBD | Pending |
-| RFP-02 | TBD | Pending |
-| RFP-03 | TBD | Pending |
-| RFP-04 | TBD | Pending |
-| RFP-05 | TBD | Pending |
-| RFP-06 | TBD | Pending |
-| INTG-01 | TBD | Pending |
-| INTG-02 | TBD | Pending |
-| INTG-03 | TBD | Pending |
-| INTG-04 | TBD | Pending |
-| INTG-05 | TBD | Pending |
-| DOC-01 | TBD | Pending |
-| DOC-02 | TBD | Pending |
-| DOC-03 | TBD | Pending |
-| DOC-04 | TBD | Pending |
-| DOC-05 | TBD | Pending |
-| DOC-06 | TBD | Pending |
-| RVUI-01 | TBD | Pending |
-| RVUI-02 | TBD | Pending |
-| RVUI-03 | TBD | Pending |
-| RVUI-04 | TBD | Pending |
-| RVUI-05 | TBD | Pending |
-| RVUI-06 | TBD | Pending |
-| AUTH-01 | TBD | Pending |
-| AUTH-02 | TBD | Pending |
-| AUTH-03 | TBD | Pending |
-| AUTH-04 | TBD | Pending |
-| AUTH-05 | TBD | Pending |
+| UPLD-01 | Phase 2 | Pending |
+| UPLD-02 | Phase 2 | Pending |
+| UPLD-03 | Phase 3 | Pending |
+| UPLD-04 | Phase 3 | Pending |
+| UPLD-05 | Phase 3 | Pending |
+| UPLD-06 | Phase 2 | Pending |
+| RFP-01 | Phase 4 | Pending |
+| RFP-02 | Phase 4 | Pending |
+| RFP-03 | Phase 4 | Pending |
+| RFP-04 | Phase 4 | Pending |
+| RFP-05 | Phase 4 | Pending |
+| RFP-06 | Phase 4 | Pending |
+| INTG-01 | Phase 5 | Pending |
+| INTG-02 | Phase 5 | Pending |
+| INTG-03 | Phase 5 | Pending |
+| INTG-04 | Phase 5 | Pending |
+| INTG-05 | Phase 5 | Pending |
+| DOC-01 | Phase 7 | Pending |
+| DOC-02 | Phase 7 | Pending |
+| DOC-03 | Phase 7 | Pending |
+| DOC-04 | Phase 8 | Pending |
+| DOC-05 | Phase 7 | Pending |
+| DOC-06 | Phase 8 | Pending |
+| RVUI-01 | Phase 6 | Pending |
+| RVUI-02 | Phase 6 | Pending |
+| RVUI-03 | Phase 6 | Pending |
+| RVUI-04 | Phase 6 | Pending |
+| RVUI-05 | Phase 6 | Pending |
+| RVUI-06 | Phase 6 | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 34 total
-- Mapped to phases: 0
-- Unmapped: 34
+- Mapped to phases: 34
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-29*
-*Last updated: 2026-03-29 after initial definition*
+*Last updated: 2026-03-29 after roadmap creation (all 34 requirements mapped)*
