@@ -38,7 +38,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Project scaffold, database schema, Auth.js configuration, middleware, and test framework
 - [x] 01-02-PLAN.md — Login page UI with server action and inline error handling
-- [ ] 01-03-PLAN.md — Dashboard shell with sidebar, greeting, drop zone, and visual verification checkpoint
+- [x] 01-03-PLAN.md — Dashboard shell with sidebar, greeting, drop zone, and visual verification checkpoint
 **UI hint**: yes
 
 ### Phase 2: File Upload
