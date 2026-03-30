@@ -12,7 +12,7 @@ Eliminate the blank page problem for discovery responses — the hardest, most t
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Simple authentication (login for Jessica) — Validated in Phase 1: Foundation
 
 ### Active
 
@@ -25,7 +25,6 @@ Eliminate the blank page problem for discovery responses — the hardest, most t
 - [ ] Signature block included automatically
 - [ ] Side-by-side review UI: see each request + AI response, approve/edit/flag individually
 - [ ] Export final output as properly formatted Word document matching her existing style
-- [ ] Simple authentication (login for Jessica)
 - [ ] Interrogatory response generation (objection language + substantive answers from complaint facts)
 
 ### Out of Scope
@@ -99,4 +98,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-29 after initialization*
+*Last updated: 2026-03-30 after Phase 1 completion*
