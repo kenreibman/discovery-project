@@ -50,7 +50,11 @@ Plans:
   2. Both a complaint PDF and a discovery request PDF can be uploaded as a single case
   3. Uploaded files are stored in Vercel Blob and linked to a case record in the database
   4. Files are not accessible to unauthenticated requests and not used for model training
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 02-01-PLAN.md — Install dependencies, upload API route, and server actions for case/document CRUD and AI classification
+- [ ] 02-02-PLAN.md — Upload zone UI with progress bars, AI classification, file list, Create Case button, and dashboard case list
+- [ ] 02-03-PLAN.md — Case detail page with document management, sidebar case entries with active state
 **UI hint**: yes
 
 ### Phase 3: PDF Parsing & Request Extraction
@@ -141,7 +145,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/3 | Planning complete | - |
-| 2. File Upload | 0/TBD | Not started | - |
+| 2. File Upload | 0/3 | Planning complete | - |
 | 3. PDF Parsing & Request Extraction | 0/TBD | Not started | - |
 | 4. RFP Response Generation | 0/TBD | Not started | - |
 | 5. Interrogatory Response Generation | 0/TBD | Not started | - |
