@@ -52,7 +52,7 @@ Plans:
   4. Files are not accessible to unauthenticated requests and not used for model training
 **Plans**: 3 plans
 Plans:
-- [ ] 02-01-PLAN.md — Install dependencies, upload API route, and server actions for case/document CRUD and AI classification
+- [x] 02-01-PLAN.md — Install dependencies, upload API route, and server actions for case/document CRUD and AI classification
 - [ ] 02-02-PLAN.md — Upload zone UI with progress bars, AI classification, file list, Create Case button, and dashboard case list
 - [ ] 02-03-PLAN.md — Case detail page with document management, sidebar case entries with active state
 **UI hint**: yes
