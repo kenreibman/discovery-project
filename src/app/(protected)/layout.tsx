@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SidebarNav } from "@/components/sidebar-nav";
+import { getCases } from "@/actions/cases";
 
 export default async function ProtectedLayout({
   children,
@@ -13,9 +14,11 @@ export default async function ProtectedLayout({
     redirect("/login");
   }
 
+  const cases = await getCases();
+
   return (
     <div className="flex h-screen">
-      <SidebarNav />
+      <SidebarNav cases={cases} />
       <main className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-[640px] px-6">{children}</div>
       </main>
