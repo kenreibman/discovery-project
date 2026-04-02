@@ -53,7 +53,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 02-01-PLAN.md — Install dependencies, upload API route, and server actions for case/document CRUD and AI classification
-- [ ] 02-02-PLAN.md — Upload zone UI with progress bars, AI classification, file list, Create Case button, and dashboard case list
+- [x] 02-02-PLAN.md — Upload zone UI with progress bars, AI classification, file list, Create Case button, and dashboard case list
 - [ ] 02-03-PLAN.md — Case detail page with document management, sidebar case entries with active state
 **UI hint**: yes
 
