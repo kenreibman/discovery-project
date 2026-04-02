@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
 // Auth.js required tables
 export const users = sqliteTable("users", {
@@ -74,3 +75,15 @@ export const documents = sqliteTable("documents", {
     () => new Date()
   ),
 });
+
+// Drizzle relations for query API (db.query.*)
+export const casesRelations = relations(cases, ({ many }) => ({
+  documents: many(documents),
+}));
+
+export const documentsRelations = relations(documents, ({ one }) => ({
+  case: one(cases, {
+    fields: [documents.caseId],
+    references: [cases.id],
+  }),
+}));
