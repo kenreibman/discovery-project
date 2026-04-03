@@ -49,6 +49,18 @@ export default {
     maxAge: 30 * 24 * 60 * 60, // 30 days per D-11
   },
   callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (token?.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
     authorized: async ({ auth }) => {
       return !!auth;
     },

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const jsonResponse = await handleUpload({
       body,
       request,
-      onBeforeGenerateToken: async (pathname) => {
+      onBeforeGenerateToken: async (_pathname) => {
         const session = await auth();
         if (!session?.user?.id) {
           throw new Error("Not authenticated");
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
           tokenPayload: JSON.stringify({ userId: session.user.id }),
         };
       },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
+      onUploadCompleted: async ({ blob }) => {
         // Note: Does NOT fire in local dev without ngrok
         // Database operations handled via separate server action
         console.log("Upload completed:", blob.url);

@@ -8,7 +8,7 @@ export type FileValidationError = {
 };
 
 export function validateFile(file: File): FileValidationError | null {
-  if (!ACCEPTED_MIME_TYPES.includes(file.type as any)) {
+  if (!(ACCEPTED_MIME_TYPES as readonly string[]).includes(file.type)) {
     return {
       file,
       reason: "wrong_type",
