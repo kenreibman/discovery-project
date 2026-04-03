@@ -35,7 +35,7 @@ Declared values (must be multiples of 4):
 |-------|-------|-------|
 | xs | 4px | Icon-to-label gaps, chevron alignment offset, badge internal padding |
 | sm | 8px | Request row internal padding, gap between request number and text |
-| md | 16px | Gap between section heading and content, request row vertical padding |
+| md | 16px | Gap between section heading and content, request row vertical padding, request row container padding, gap between request list and header |
 | lg | 24px | Spacing between document list section and extracted requests section |
 | xl | 32px | Gap between extracted requests section and Generate Responses button |
 | 2xl | 48px | Case detail page top padding (existing) |
@@ -50,7 +50,7 @@ Exceptions: Touch target minimum 44px height for "Re-extract" button and "Genera
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
 | Body | 16px | 400 | 1.5 | Expanded request text, case name (existing) |
-| Label | 14px | 400 | 1.4 | Request number labels, truncated preview text, section headings ("Extracted Requests"), request count, discovery sub-type badge text, "Re-extract" button text, error messages |
+| Label | 14px | 400 | 1.4 | Request number labels, truncated preview text, section headings ("Extracted Requests"), request count, discovery sub-type badge text (uppercase), "Re-extract" button text, error messages |
 | Heading | 24px | 600 | 1.2 | Case detail page title (existing, unchanged) |
 | Display | 32px | 600 | 1.2 | Reserved for future phases (not used in Phase 3) |
 
@@ -83,7 +83,7 @@ shadcn/ui components used for Phase 3 (all already installed from Phase 1/2):
 
 | Component | Where Used | Notes |
 |-----------|-----------|-------|
-| `button` | Re-extract, Generate Responses, Retry, Upload new | Ghost variant for re-extract; primary variant (disabled) for Generate Responses; outline for Retry and Upload new |
+| `button` | Re-extract, Generate Responses, Retry Extraction, Upload new | Ghost variant for re-extract; primary variant (disabled) for Generate Responses; outline for Retry Extraction and Upload new |
 | `badge` | Discovery sub-type label ("RFP" / "Interrogatory") | Secondary variant, consistent with existing type badges |
 | `select` | Discovery sub-type override dropdown | Same pattern as existing document type override from Phase 2 |
 | `skeleton` | Extraction loading state | Pulse animation for request list placeholder rows |
@@ -114,25 +114,25 @@ For each document with `type === "discovery_request"` that has been processed, a
 - Left side:
   - "Extracted Requests" heading (14px, weight 600, text-primary)
   - 8px horizontal gap
-  - Discovery sub-type badge: "RFP" or "Interrogatory" (badge component, secondary variant, 12px text, uppercase). Clickable -- opens select dropdown for override (D-14). Only visible after extraction completes.
+  - Discovery sub-type badge: "RFP" or "Interrogatory" (badge component, secondary variant, 14px text, uppercase). Clickable -- opens select dropdown for override (D-14). Only visible after extraction completes.
   - 8px horizontal gap
   - Request count in parentheses: "(33)" (14px, weight 400, text-secondary)
 - Right side:
   - "Re-extract" button (ghost variant, 14px): lucide `RefreshCw` icon (14px) + "Re-extract" text. Text-secondary color. Disabled with spin animation on icon during re-extraction.
 
-**Request list (12px top margin from header):**
+**Request list (16px top margin from header):**
 
 Vertical stack of request rows with 4px gap between rows.
 
 **Each request row:**
-- Container: `rounded` border (1px `--border`), padding 12px. Cursor pointer. Background white (`--card`).
+- Container: `rounded` border (1px `--border`), padding 16px. Cursor pointer. Background white (`--card`).
 - Hover state: background transitions to `--secondary` (#F0EDE6).
 - Contents (horizontal flex, items-start, 8px gap):
   1. Expand indicator (16px width, only if text exceeds 100 characters):
      - Collapsed: lucide `ChevronRight` (16px, text-secondary), positioned at top with 2px top offset for alignment with text baseline
      - Expanded: lucide `ChevronDown` (16px, text-secondary)
      - If text is 100 characters or fewer: 16px empty spacer (maintains alignment)
-  2. Request number: "{N}." (14px, weight 500, text-secondary). Right-aligned in a 24px-wide column.
+  2. Request number: "{N}." (14px, weight 400, text-secondary). Right-aligned in a 24px-wide column.
   3. Request text:
      - Collapsed (default): first 100 characters + "..." if longer (14px, weight 400, text-primary). Single line with overflow hidden.
      - Expanded: full text (14px, weight 400, text-primary). Natural line wrapping. No max-height.
@@ -170,9 +170,9 @@ Section header appears immediately with:
 - No badge, no count (not yet known)
 - "Re-extract" button disabled
 
-Below the header, 12px margin:
+Below the header, 16px margin:
 - 3 skeleton placeholder rows, each:
-  - Container: rounded border (1px `--border`), padding 12px, same dimensions as real request rows
+  - Container: rounded border (1px `--border`), padding 16px, same dimensions as real request rows
   - Inside: skeleton shimmer bar, 80% width, 14px height, rounded
   - 8px gap below first bar, second skeleton bar at 60% width, 14px height, rounded
   - Pulse animation (`animate-pulse` from shadcn skeleton)
@@ -192,12 +192,12 @@ Section header appears with:
 - "Extracted Requests" heading (14px, weight 600)
 - No badge, no count
 
-Below the header, 12px margin:
+Below the header, 16px margin:
 - Error container: rounded border (1px `--border`), padding 24px, centered content
   - lucide `AlertCircle` icon (24px, destructive #DC2626), centered
   - 8px below icon: error message (14px, weight 400, text-primary, centered, max-width 400px): "Could not extract requests from this PDF. The document may be a poor-quality scan." (D-07, verbatim)
   - 16px below message: two buttons side by side, centered, 8px gap:
-    - "Retry" button (outline variant, 14px): lucide `RefreshCw` icon (14px) + "Retry" text
+    - "Retry Extraction" button (outline variant, 14px): lucide `RefreshCw` icon (14px) + "Retry Extraction" text
     - "Upload new" button (outline variant, 14px): lucide `Upload` icon (14px) + "Upload new" text
 
 **Retry behavior:** Calls `extractRequests()` again for the same document. Shows extraction loading state.
@@ -250,7 +250,7 @@ This status is transient -- the file row is removed from pending uploads once ex
 | Extracting status (loading) | "Extracting requests..." |
 | Extracting status (file row) | "Extracting..." |
 | Extraction error message | "Could not extract requests from this PDF. The document may be a poor-quality scan." |
-| Retry button | "Retry" |
+| Retry button | "Retry Extraction" |
 | Upload new button | "Upload new" |
 | Empty state (no discovery docs) | Not applicable -- section only appears for discovery_request documents |
 | Truncation indicator | "..." appended after first 100 characters |
@@ -268,7 +268,7 @@ No destructive actions in Phase 3. Re-extraction replaces old requests without c
 | Re-extract click | Disables Re-extract button. Shows spinning RefreshCw icon. Clears existing request rows and shows extraction loading state. On completion, replaces with new results. On failure, shows error state. |
 | Sub-type badge click | Opens select dropdown with "RFP" and "Interrogatory" options. Selection fires server action to update document sub-type. Badge updates optimistically. |
 | Generate Responses click | Disabled in Phase 3. No action. Visual feedback: cursor not-allowed, 50% opacity. |
-| Retry click (error state) | Same as re-extract: calls extraction server action for the same document. |
+| Retry Extraction click (error state) | Same as re-extract: calls extraction server action for the same document. |
 | Upload new click (error state) | Opens native file picker. Uploads new PDF to Vercel Blob and replaces the failed document. Full upload-classify-extract pipeline runs for new file. |
 | Auto-naming | After extraction, if case name is null, the heading updates to the extracted case name on page revalidation. No toast. No animation. |
 | Page revalidation | `revalidatePath(/case/[id])` called after extraction completes. Server component re-renders with new extracted requests data. |
@@ -284,7 +284,7 @@ No destructive actions in Phase 3. Re-extraction replaces old requests without c
 | Request row keyboard | Each request row is focusable (`tabIndex={0}`). Enter/Space toggles expand/collapse. `role="button"` on expandable rows. `aria-expanded="true/false"` on expandable rows. |
 | Request list structure | Container has `role="list"`. Each request row has `role="listitem"`. |
 | Extraction loading | Skeleton area has `aria-busy="true"` and `aria-label="Extracting requests from document"`. Status text "Extracting requests..." is in an `aria-live="polite"` region. |
-| Extraction error | Error container has `role="alert"`. Error message is immediately announced. Retry button receives focus after error appears. |
+| Extraction error | Error container has `role="alert"`. Error message is immediately announced. Retry Extraction button receives focus after error appears. |
 | Sub-type override | Select has accessible label "Discovery type for [document filename]". Keyboard navigable via Base UI Select. |
 | Re-extract button | `aria-label="Re-extract requests from document"`. Disabled state communicated via `aria-disabled`. |
 | Generate Responses button | `aria-disabled="true"` with `aria-label="Generate Responses - coming soon"`. |
