@@ -71,7 +71,22 @@ export const documents = sqliteTable("documents", {
   filename: text("filename").notNull(),
   blobUrl: text("blob_url").notNull(), // Vercel Blob URL
   mimeType: text("mime_type"),
+  subType: text("sub_type"), // "rfp" | "interrogatory" | null
   uploadedAt: integer("uploaded_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+});
+
+export const extractedRequests = sqliteTable("extracted_requests", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  documentId: text("document_id")
+    .notNull()
+    .references(() => documents.id, { onDelete: "cascade" }),
+  requestNumber: integer("request_number").notNull(),
+  text: text("text").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date()
   ),
 });
@@ -81,9 +96,17 @@ export const casesRelations = relations(cases, ({ many }) => ({
   documents: many(documents),
 }));
 
-export const documentsRelations = relations(documents, ({ one }) => ({
+export const documentsRelations = relations(documents, ({ one, many }) => ({
   case: one(cases, {
     fields: [documents.caseId],
     references: [cases.id],
+  }),
+  extractedRequests: many(extractedRequests),
+}));
+
+export const extractedRequestsRelations = relations(extractedRequests, ({ one }) => ({
+  document: one(documents, {
+    fields: [extractedRequests.documentId],
+    references: [documents.id],
   }),
 }));
