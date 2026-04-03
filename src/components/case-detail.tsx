@@ -45,7 +45,9 @@ import { FileRow, type FileUploadState } from "@/components/file-row";
 import { renameCase, deleteCase } from "@/actions/cases";
 import { addDocument, removeDocument, updateDocumentType } from "@/actions/documents";
 import { classifyDocument } from "@/actions/classify";
+import { extractRequests } from "@/actions/extract";
 import { validateFile } from "@/lib/upload";
+import { ExtractedRequests } from "@/components/extracted-requests";
 
 const TYPE_LABELS: Record<string, string> = {
   complaint: "Complaint",
@@ -60,10 +62,16 @@ type CaseDetailProps = {
     documents: {
       id: string;
       type: string;
+      subType: string | null;
       filename: string;
       blobUrl: string;
       mimeType: string | null;
       uploadedAt: Date | null;
+      extractedRequests: {
+        id: string;
+        requestNumber: number;
+        text: string;
+      }[];
     }[];
   };
 };
@@ -212,12 +220,23 @@ export function CaseDetail({ caseData }: CaseDetailProps) {
       }
 
       // Add document to the case
-      await addDocument(caseData.id, {
+      const doc = await addDocument(caseData.id, {
         blobUrl: blob.url,
         filename: fileState.file.name,
         type: docType,
         mimeType: fileState.file.type,
       });
+
+      // Auto-trigger extraction for discovery_request documents (D-02)
+      if (docType === "discovery_request") {
+        updateFileState(fileState.id, { status: "extracting" });
+        const result = await extractRequests(doc.id, caseData.id);
+        if (!result.success) {
+          // D-06: Transparent -- don't block upload flow on extraction failure
+          // Error will be visible in the extracted requests section after refresh
+          toast.error("Extraction encountered an issue. You can retry from the case page.");
+        }
+      }
 
       // Remove from pending uploads and refresh to show in document list
       setPendingUploads((prev) => prev.filter((f) => f.id !== fileState.id));
@@ -369,6 +388,11 @@ export function CaseDetail({ caseData }: CaseDetailProps) {
                   </SelectItem>
                 </SelectContent>
               </Select>
+              {doc.subType && (
+                <Badge variant="outline" className="ml-1 text-xs uppercase">
+                  {doc.subType === "rfp" ? "RFP" : "Interrog."}
+                </Badge>
+              )}
               <span className="ml-2 text-sm text-muted-foreground">
                 {formatRelativeDate(doc.uploadedAt)}
               </span>
@@ -394,6 +418,20 @@ export function CaseDetail({ caseData }: CaseDetailProps) {
           ))}
         </div>
       </div>
+
+      {/* Extracted Requests sections -- one per discovery_request document (D-01) */}
+      {caseData.documents
+        .filter((doc) => doc.type === "discovery_request")
+        .map((doc) => (
+          <div key={`extract-${doc.id}`} className="mt-6">
+            <ExtractedRequests
+              requests={doc.extractedRequests}
+              discoverySubType={doc.subType}
+              documentId={doc.id}
+              caseId={caseData.id}
+            />
+          </div>
+        ))}
 
       {/* Danger zone */}
       <div className="mt-12">
