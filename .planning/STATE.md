@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 3 context gathered
-last_updated: "2026-04-03T15:55:14.531Z"
+status: executing
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-04-03T16:04:03.447Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 9
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-03-29)
 ## Current Position
 
 Phase: 03 (pdf-parsing-request-extraction) — EXECUTING
-Plan: 1 of 3 complete
-Status: Executing Plan 02
+Plan: 2 of 3 complete
+Status: Ready to execute
 Last activity: 2026-04-03
 
 Progress: [██░░░░░░░░] 25%
@@ -58,6 +58,7 @@ Progress: [██░░░░░░░░] 25%
 | Phase 02 P01 | 3min | 2 tasks | 19 files |
 | Phase 02 P02 | 3min | 2 tasks | 4 files |
 | Phase 03 P01 | 5min | 2 tasks | 10 files |
+| Phase 03 P02 | 4min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,7 @@ Recent decisions affecting current work:
 - [Phase 03]: Dual validation: Zod schema (runtime) + JSON schema (Claude output_config)
 - [Phase 03]: Re-extract safety: delete old requests before inserting new ones
 - [Phase 03]: Auto-name case only when name is null to prevent overwriting user edits
+- [Phase 03]: ExtractedRequests renders inline on case detail page per D-01, auto-extraction triggers after classification per D-02
 
 ### Pending Todos
 
@@ -96,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-03T15:53:31Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-04-03T16:04:03.444Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None

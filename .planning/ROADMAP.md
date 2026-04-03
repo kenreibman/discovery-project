@@ -69,7 +69,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 03-01-PLAN.md — Database schema extension (extracted_requests table, sub-type column) and Claude extraction pipeline (server action, structured output, prompt)
-- [ ] 03-02-PLAN.md — Extraction verification UI (request list with expand/collapse, sub-type badge, auto-trigger on upload, loading/error states)
+- [x] 03-02-PLAN.md — Extraction verification UI (request list with expand/collapse, sub-type badge, auto-trigger on upload, loading/error states)
 - [ ] 03-03-PLAN.md — End-to-end verification checkpoint (user tests full extraction flow with Swan RFP)
 **UI hint**: yes
 
@@ -151,7 +151,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/3 | Planning complete | - |
 | 2. File Upload | 0/3 | Planning complete | - |
-| 3. PDF Parsing & Request Extraction | 0/3 | Planning complete | - |
+| 3. PDF Parsing & Request Extraction | 2/3 | In Progress|  |
 | 4. RFP Response Generation | 0/TBD | Not started | - |
 | 5. Interrogatory Response Generation | 0/TBD | Not started | - |
 | 6. Review UI | 0/TBD | Not started | - |
