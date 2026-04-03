@@ -61,3 +61,19 @@ export async function updateDocumentType(
 
   revalidatePath(`/case/${caseId}`);
 }
+
+export async function updateDocumentSubType(
+  documentId: string,
+  subType: "rfp" | "interrogatory",
+  caseId: string
+) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Not authenticated");
+
+  await db
+    .update(documents)
+    .set({ subType })
+    .where(eq(documents.id, documentId));
+
+  revalidatePath(`/case/${caseId}`);
+}

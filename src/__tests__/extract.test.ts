@@ -30,11 +30,10 @@ vi.mock("next/cache", () => ({
 
 const mockCreate = vi.fn();
 vi.mock("@anthropic-ai/sdk", () => {
-  return {
-    default: vi.fn().mockImplementation(() => ({
-      messages: { create: mockCreate },
-    })),
-  };
+  class MockAnthropic {
+    messages = { create: mockCreate };
+  }
+  return { default: MockAnthropic };
 });
 
 // Mock global fetch
