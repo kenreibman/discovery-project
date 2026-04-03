@@ -15,7 +15,7 @@ import { formatFileSize } from "@/lib/upload";
 export type FileUploadState = {
   id: string;
   file: File;
-  status: "uploading" | "classifying" | "done" | "error";
+  status: "uploading" | "classifying" | "extracting" | "done" | "error";
   progress: number;
   blobUrl?: string;
   type?: "complaint" | "discovery_request";
@@ -99,6 +99,14 @@ export function FileRow({ state, onTypeChange, onRetry, onRemove }: FileRowProps
               Classifying...
             </span>
             <Loader2 size={14} className="animate-spin text-muted-foreground" />
+          </div>
+        )}
+        {state.status === "extracting" && (
+          <div className="flex items-center gap-1">
+            <span className="text-sm text-muted-foreground">
+              Extracting...
+            </span>
+            <Loader2 size={14} className="animate-spin text-[#C8653A]" />
           </div>
         )}
         {state.status === "done" && (
