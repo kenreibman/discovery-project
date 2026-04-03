@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation** - Project scaffold, database schema, authentication, and security baseline
 - [ ] **Phase 2: File Upload** - Vercel Blob client-side upload, case record creation, and secure file storage
-- [ ] **Phase 3: PDF Parsing & Request Extraction** - Claude Files API integration, OCR/scanned PDF handling, and individual request extraction
+- [ ] **Phase 3: PDF Parsing & Request Extraction** - Claude base64 PDF processing, structured output extraction, and individual request parsing
 - [ ] **Phase 4: RFP Response Generation** - Batched AI generation of RFP responses using Jessica's three-pattern model
 - [ ] **Phase 5: Interrogatory Response Generation** - Complaint-fact-to-answer reasoning and interrogatory response drafting
 - [ ] **Phase 6: Review UI** - Side-by-side request/response interface with approve, edit, and flag controls
@@ -66,7 +66,12 @@ Plans:
   2. After uploading a scanned/OCR PDF, the system still extracts requests without failing silently
   3. The system correctly identifies whether the uploaded document is an RFP or an interrogatory set
   4. Jessica can inspect the extracted request list and catch parsing errors before generation starts
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 03-01-PLAN.md — Database schema extension (extracted_requests table, sub-type column) and Claude extraction pipeline (server action, structured output, prompt)
+- [ ] 03-02-PLAN.md — Extraction verification UI (request list with expand/collapse, sub-type badge, auto-trigger on upload, loading/error states)
+- [ ] 03-03-PLAN.md — End-to-end verification checkpoint (user tests full extraction flow with Swan RFP)
+**UI hint**: yes
 
 ### Phase 4: RFP Response Generation
 **Goal**: For any uploaded RFP set, the AI generates a complete draft response for every request in one pass using Jessica's exact voice and three-pattern model
@@ -146,7 +151,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/3 | Planning complete | - |
 | 2. File Upload | 0/3 | Planning complete | - |
-| 3. PDF Parsing & Request Extraction | 0/TBD | Not started | - |
+| 3. PDF Parsing & Request Extraction | 0/3 | Planning complete | - |
 | 4. RFP Response Generation | 0/TBD | Not started | - |
 | 5. Interrogatory Response Generation | 0/TBD | Not started | - |
 | 6. Review UI | 0/TBD | Not started | - |
