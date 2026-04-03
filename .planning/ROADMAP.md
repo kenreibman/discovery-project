@@ -68,7 +68,7 @@ Plans:
   4. Jessica can inspect the extracted request list and catch parsing errors before generation starts
 **Plans**: 3 plans
 Plans:
-- [ ] 03-01-PLAN.md — Database schema extension (extracted_requests table, sub-type column) and Claude extraction pipeline (server action, structured output, prompt)
+- [x] 03-01-PLAN.md — Database schema extension (extracted_requests table, sub-type column) and Claude extraction pipeline (server action, structured output, prompt)
 - [ ] 03-02-PLAN.md — Extraction verification UI (request list with expand/collapse, sub-type badge, auto-trigger on upload, loading/error states)
 - [ ] 03-03-PLAN.md — End-to-end verification checkpoint (user tests full extraction flow with Swan RFP)
 **UI hint**: yes

@@ -11,9 +11,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **UPLD-01**: User can upload discovery request PDFs via drag-and-drop or file picker
 - [x] **UPLD-02**: User can upload complaint PDF for case context
-- [ ] **UPLD-03**: System extracts individual numbered requests from discovery request PDF
-- [ ] **UPLD-04**: System handles both digital and scanned/OCR PDFs from opposing counsel
-- [ ] **UPLD-05**: System identifies discovery request type (RFP vs. interrogatory) from uploaded document
+- [x] **UPLD-03**: System extracts individual numbered requests from discovery request PDF
+- [x] **UPLD-04**: System handles both digital and scanned/OCR PDFs from opposing counsel
+- [x] **UPLD-05**: System identifies discovery request type (RFP vs. interrogatory) from uploaded document
 - [x] **UPLD-06**: Uploaded files are stored securely with no data used for model training
 
 ### RFP Response Generation
@@ -108,9 +108,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | UPLD-01 | Phase 2 | Complete |
 | UPLD-02 | Phase 2 | Complete |
-| UPLD-03 | Phase 3 | Pending |
-| UPLD-04 | Phase 3 | Pending |
-| UPLD-05 | Phase 3 | Pending |
+| UPLD-03 | Phase 3 | Complete |
+| UPLD-04 | Phase 3 | Complete |
+| UPLD-05 | Phase 3 | Complete |
 | UPLD-06 | Phase 2 | Complete |
 | RFP-01 | Phase 4 | Pending |
 | RFP-02 | Phase 4 | Pending |

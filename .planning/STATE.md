@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: verifying
 stopped_at: Phase 3 context gathered
-last_updated: "2026-04-03T04:48:36.593Z"
+last_updated: "2026-04-03T15:55:14.531Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 9
-  completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
-  percent: 22
+  completed_phases: 1
+  total_plans: 9
+  completed_plans: 7
+  percent: 25
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-29)
 
 **Core value:** Eliminate the blank page problem for discovery responses — Jessica starts from a quality draft instead of scratch.
-**Current focus:** Phase 02 complete — ready for Phase 03 (PDF Parsing & Request Extraction)
+**Current focus:** Phase 03 — PDF Parsing & Request Extraction
 
 ## Current Position
 
-Phase: 02 (file-upload) — COMPLETE
-Plan: 3 of 3 — All done
-Status: Verified end-to-end by user
+Phase: 03 (pdf-parsing-request-extraction) — EXECUTING
+Plan: 1 of 3 complete
+Status: Executing Plan 02
 Last activity: 2026-04-03
 
-Progress: [██░░░░░░░░] 22%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [██░░░░░░░░] 22%
 | Phase 01 P03 | 15min | 2 tasks | 8 files |
 | Phase 02 P01 | 3min | 2 tasks | 19 files |
 | Phase 02 P02 | 3min | 2 tasks | 4 files |
+| Phase 03 P01 | 5min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,10 @@ Recent decisions affecting current work:
 - [Phase 01]: serverExternalPackages for @libsql/client in next.config.ts for Turbopack compatibility
 - [Phase 02]: Drizzle relations added to schema.ts to enable db.query API for findFirst/findMany
 - [Phase 02]: CaseList as server component calling getCases directly -- no client-side data fetching
+- [Phase 03]: Claude base64 PDF document block for extraction instead of text extraction + classify
+- [Phase 03]: Dual validation: Zod schema (runtime) + JSON schema (Claude output_config)
+- [Phase 03]: Re-extract safety: delete old requests before inserting new ones
+- [Phase 03]: Auto-name case only when name is null to prevent overwriting user edits
 
 ### Pending Todos
 
@@ -91,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-03T04:48:36.590Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-pdf-parsing-request-extraction/03-CONTEXT.md
+Last session: 2026-04-03T15:53:31Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None
