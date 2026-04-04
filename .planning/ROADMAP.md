@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Foundation** - Project scaffold, database schema, authentication, and security baseline
 - [ ] **Phase 2: File Upload** - Vercel Blob client-side upload, case record creation, and secure file storage
 - [ ] **Phase 3: PDF Parsing & Request Extraction** - Claude base64 PDF processing, structured output extraction, and individual request parsing
-- [ ] **Phase 4: RFP Response Generation** - Batched AI generation of RFP responses using Jessica's three-pattern model
+- [ ] **Phase 4: RFP Response Generation** - Batched AI generation of RFP responses using Jessica's four-pattern model
 - [ ] **Phase 5: Interrogatory Response Generation** - Complaint-fact-to-answer reasoning and interrogatory response drafting
 - [ ] **Phase 6: Review UI** - Side-by-side request/response interface with approve, edit, and flag controls
 - [ ] **Phase 7: Document Assembly** - Auto-insertion of general statements boilerplate, signature block, verbatim request copy, and headers
@@ -74,12 +74,12 @@ Plans:
 **UI hint**: yes
 
 ### Phase 4: RFP Response Generation
-**Goal**: For any uploaded RFP set, the AI generates a complete draft response for every request in one pass using Jessica's exact voice and three-pattern model
+**Goal**: For any uploaded RFP set, the AI generates a complete draft response for every request in one pass using Jessica's exact voice and four-pattern model
 **Depends on**: Phase 3
 **Requirements**: RFP-01, RFP-02, RFP-03, RFP-04, RFP-05, RFP-06
 **Success Criteria** (what must be TRUE):
   1. All responses for an RFP set are generated in a single pass — no request-by-request interaction required
-  2. Each response is classified into one of three patterns: "produced all documents," "no such documents exist," or objection with explanation
+  2. Each response is classified into one of four patterns: "produced all documents," "no such documents exist," objection with explanation, or cross-reference to a prior response
   3. Objection language matches Jessica's exact formulas (privilege, overbroad/irrelevant, premature, compound) — no invented variations
   4. Objection responses include "without waiving any objection" followed by a substantive partial response where appropriate
   5. The AI does not fabricate document existence — defaults to "produced all documents" when document status is uncertain
