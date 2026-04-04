@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import {
@@ -53,6 +53,24 @@ export function ExtractedRequests({
   );
   const [announcement, setAnnouncement] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hasTriggeredRef = useRef(false);
+
+  // Sync local state when server data changes (e.g., after router.refresh())
+  useEffect(() => {
+    setCurrentRequests(requests);
+  }, [requests]);
+
+  useEffect(() => {
+    setCurrentSubType(discoverySubType);
+  }, [discoverySubType]);
+
+  // Auto-trigger extraction when mounted with no requests (e.g., after case creation from dashboard)
+  useEffect(() => {
+    if (requests.length === 0 && !hasTriggeredRef.current) {
+      hasTriggeredRef.current = true;
+      handleReExtract();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function toggleExpand(id: string) {
     setExpandedIds((prev) => {

@@ -9,8 +9,10 @@ export async function classifyDocument(blobUrl: string): Promise<{
   type: "complaint" | "discovery_request";
   confidence: number;
 }> {
-  // Fetch PDF from Vercel Blob and extract first page text
-  const response = await fetch(blobUrl);
+  // Fetch PDF from private Vercel Blob (requires auth token)
+  const response = await fetch(blobUrl, {
+    headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+  });
   const buffer = await response.arrayBuffer();
   const { text } = await extractText(new Uint8Array(buffer), { mergePages: false });
   const firstPageText = text[0] || "";

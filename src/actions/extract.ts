@@ -32,8 +32,10 @@ export async function extractRequests(
     });
     if (!doc) return { success: false, error: "Document not found" };
 
-    // 2. Fetch PDF from Vercel Blob and base64-encode
-    const response = await fetch(doc.blobUrl);
+    // 2. Fetch PDF from private Vercel Blob (requires auth token)
+    const response = await fetch(doc.blobUrl, {
+      headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+    });
     if (!response.ok) {
       return {
         success: false,
@@ -45,7 +47,7 @@ export async function extractRequests(
 
     // 3. Call Claude with base64 PDF document block + structured output (D-08, D-12)
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-5-20250514",
+      model: "claude-sonnet-4-5",
       max_tokens: 8192,
       messages: [
         {

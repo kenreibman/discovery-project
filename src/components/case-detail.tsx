@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { upload } from "@vercel/blob/client";
@@ -93,6 +93,14 @@ export function CaseDetail({ caseData }: CaseDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(caseData.name || "");
   const [previousName, setPreviousName] = useState(caseData.name || "");
+
+  // Sync name when server data changes (e.g., auto-naming after extraction)
+  useEffect(() => {
+    if (caseData.name && !name) {
+      setName(caseData.name);
+      setPreviousName(caseData.name);
+    }
+  }, [caseData.name]); // eslint-disable-line react-hooks/exhaustive-deps
   const [isDeleting, setIsDeleting] = useState(false);
   const [pendingUploads, setPendingUploads] = useState<FileUploadState[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);

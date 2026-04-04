@@ -21,11 +21,7 @@ export async function POST(request: Request) {
           tokenPayload: JSON.stringify({ userId: session.user.id }),
         };
       },
-      onUploadCompleted: async ({ blob }) => {
-        // Note: Does NOT fire in local dev without ngrok
-        // Database operations handled via separate server action
-        console.log("Upload completed:", blob.url);
-      },
+      onUploadCompleted: async () => {},
     });
     return NextResponse.json(jsonResponse);
   } catch (error) {
