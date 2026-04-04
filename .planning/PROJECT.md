@@ -13,14 +13,13 @@ Eliminate the blank page problem for discovery responses — the hardest, most t
 ### Validated
 
 - [x] Simple authentication (login for Jessica) — Validated in Phase 1: Foundation
+- [x] Upload complaint and discovery request PDFs via browser — Validated in Phase 2: File Upload
+- [x] AI parses discovery requests and extracts individual requests — Validated in Phase 3: PDF Parsing
+- [x] AI generates a response for each request using Jessica's voice and templates — Validated in Phase 4: RFP Response Generation
+- [x] RFP responses use her four patterns: produced all, no such documents, objection, cross-reference — Validated in Phase 4: RFP Response Generation
+- [x] Objections use her exact language: privilege, overbroad, premature, compound formulas — Validated in Phase 4: RFP Response Generation
 
 ### Active
-
-- [ ] Upload complaint and discovery request PDFs via browser
-- [ ] AI parses discovery requests and extracts individual requests
-- [ ] AI generates a response for each request using Jessica's voice and templates
-- [ ] RFP responses use her three patterns: "produced all documents," "no such documents exist," or objection with explanation
-- [ ] Objections use her exact language: privilege, overbroad, premature, compound formulas
 - [ ] General statements boilerplate included automatically
 - [ ] Signature block included automatically
 - [ ] Side-by-side review UI: see each request + AI response, approve/edit/flag individually
@@ -98,4 +97,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after Phase 1 completion*
+*Last updated: 2026-04-04 after Phase 4 completion*
