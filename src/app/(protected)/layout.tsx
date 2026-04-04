@@ -17,9 +17,9 @@ export default async function ProtectedLayout({
   const cases = await getCases();
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen">
       <SidebarNav cases={cases} />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1">
         <div className="mx-auto max-w-[640px] px-6">{children}</div>
       </main>
     </div>
