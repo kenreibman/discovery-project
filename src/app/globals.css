@@ -97,6 +97,6 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   }
 }
