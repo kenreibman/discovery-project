@@ -18,12 +18,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### RFP Response Generation
 
-- [ ] **RFP-01**: AI generates a response for each RFP request using Jessica's three patterns: "produced all documents," "no such documents exist," or objection with explanation
-- [ ] **RFP-02**: AI classifies each request into the correct response pattern based on complaint context and request language
-- [ ] **RFP-03**: Objections use Jessica's exact language formulas: privilege, overbroad/irrelevant, premature, compound
-- [ ] **RFP-04**: Objection responses include "without waiving any objection" followed by a substantive partial response where appropriate
-- [ ] **RFP-05**: All responses are generated in a single pass (full-draft-first workflow, not request-by-request)
-- [ ] **RFP-06**: AI does not fabricate facts — defaults to "produced all documents" when unsure whether documents exist
+- [x] **RFP-01**: AI generates a response for each RFP request using Jessica's three patterns: "produced all documents," "no such documents exist," or objection with explanation
+- [x] **RFP-02**: AI classifies each request into the correct response pattern based on complaint context and request language
+- [x] **RFP-03**: Objections use Jessica's exact language formulas: privilege, overbroad/irrelevant, premature, compound
+- [x] **RFP-04**: Objection responses include "without waiving any objection" followed by a substantive partial response where appropriate
+- [x] **RFP-05**: All responses are generated in a single pass (full-draft-first workflow, not request-by-request)
+- [x] **RFP-06**: AI does not fabricate facts — defaults to "produced all documents" when unsure whether documents exist
 
 ### Interrogatory Response Generation
 
@@ -112,12 +112,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UPLD-04 | Phase 3 | Complete |
 | UPLD-05 | Phase 3 | Complete |
 | UPLD-06 | Phase 2 | Complete |
-| RFP-01 | Phase 4 | Pending |
-| RFP-02 | Phase 4 | Pending |
-| RFP-03 | Phase 4 | Pending |
-| RFP-04 | Phase 4 | Pending |
-| RFP-05 | Phase 4 | Pending |
-| RFP-06 | Phase 4 | Pending |
+| RFP-01 | Phase 4 | Complete |
+| RFP-02 | Phase 4 | Complete |
+| RFP-03 | Phase 4 | Complete |
+| RFP-04 | Phase 4 | Complete |
+| RFP-05 | Phase 4 | Complete |
+| RFP-06 | Phase 4 | Complete |
 | INTG-01 | Phase 5 | Pending |
 | INTG-02 | Phase 5 | Pending |
 | INTG-03 | Phase 5 | Pending |

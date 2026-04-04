@@ -86,7 +86,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 04-01-PLAN.md — Database schema (generatedResponses table), Zod validation schema, generation prompt with Jessica's exact voice patterns
-- [ ] 04-02-PLAN.md — SSE streaming Route Handler for Claude generation, server action for response cleanup, extended getCase query
+- [x] 04-02-PLAN.md — SSE streaming Route Handler for Claude generation, server action for response cleanup, extended getCase query
 - [ ] 04-03-PLAN.md — Generation UI (functional Generate button, streaming progress, inline response display, re-generate flow, limitation banner, visual verification)
 **UI hint**: yes
 
