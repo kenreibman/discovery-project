@@ -94,9 +94,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+    @apply bg-background text-foreground font-sans;
   }
 }
