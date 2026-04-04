@@ -104,7 +104,11 @@ export async function getCase(caseId: string) {
   const docs = await db.query.documents.findMany({
     where: eq(documents.caseId, caseId),
     with: {
-      extractedRequests: true,
+      extractedRequests: {
+        with: {
+          generatedResponse: true,
+        },
+      },
     },
   });
 
