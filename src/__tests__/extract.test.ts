@@ -111,7 +111,9 @@ describe("extractRequests", () => {
     await extractRequests("doc-1", "case-1");
 
     // Verify fetch was called with the blob URL
-    expect(mockFetch).toHaveBeenCalledWith("https://blob.vercel.com/test.pdf");
+    expect(mockFetch).toHaveBeenCalledWith("https://blob.vercel.com/test.pdf", expect.objectContaining({
+      headers: expect.objectContaining({ Authorization: expect.any(String) }),
+    }));
 
     // Verify Claude was called with document content block
     expect(mockCreate).toHaveBeenCalledTimes(1);
