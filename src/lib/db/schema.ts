@@ -104,9 +104,33 @@ export const documentsRelations = relations(documents, ({ one, many }) => ({
   extractedRequests: many(extractedRequests),
 }));
 
-export const extractedRequestsRelations = relations(extractedRequests, ({ one }) => ({
+export const generatedResponses = sqliteTable("generated_responses", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  requestId: text("request_id")
+    .notNull()
+    .references(() => extractedRequests.id, { onDelete: "cascade" }),
+  pattern: text("pattern").notNull(), // "produced_all" | "no_such_documents" | "objection" | "cross_reference"
+  objectionTypes: text("objection_types"), // JSON string: '["privilege","overbroad_irrelevant"]' or null
+  responseText: text("response_text").notNull(),
+  crossReferenceNumber: integer("cross_reference_number"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+});
+
+export const extractedRequestsRelations = relations(extractedRequests, ({ one, many }) => ({
   document: one(documents, {
     fields: [extractedRequests.documentId],
     references: [documents.id],
+  }),
+  generatedResponse: many(generatedResponses),
+}));
+
+export const generatedResponsesRelations = relations(generatedResponses, ({ one }) => ({
+  request: one(extractedRequests, {
+    fields: [generatedResponses.requestId],
+    references: [extractedRequests.id],
   }),
 }));
