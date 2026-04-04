@@ -71,6 +71,13 @@ type CaseDetailProps = {
         id: string;
         requestNumber: number;
         text: string;
+        generatedResponse: {
+          id: string;
+          pattern: string;
+          objectionTypes: string | null;
+          responseText: string;
+          crossReferenceNumber: number | null;
+        }[];
       }[];
     }[];
   };
@@ -430,16 +437,22 @@ export function CaseDetail({ caseData }: CaseDetailProps) {
       {/* Extracted Requests sections -- one per discovery_request document (D-01) */}
       {caseData.documents
         .filter((doc) => doc.type === "discovery_request")
-        .map((doc) => (
-          <div key={`extract-${doc.id}`} className="mt-6">
-            <ExtractedRequests
-              requests={doc.extractedRequests}
-              discoverySubType={doc.subType}
-              documentId={doc.id}
-              caseId={caseData.id}
-            />
-          </div>
-        ))}
+        .map((doc) => {
+          const hasComplaint = caseData.documents.some(
+            (d) => d.type === "complaint"
+          );
+          return (
+            <div key={`extract-${doc.id}`} className="mt-6">
+              <ExtractedRequests
+                requests={doc.extractedRequests}
+                discoverySubType={doc.subType}
+                documentId={doc.id}
+                caseId={caseData.id}
+                hasComplaint={hasComplaint}
+              />
+            </div>
+          );
+        })}
 
       {/* Danger zone */}
       <div className="mt-12">

@@ -10,7 +10,10 @@ import {
   AlertCircle,
   Upload,
   Loader2,
+  Info,
+  Play,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -20,13 +23,34 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { extractRequests } from "@/actions/extract";
+import { deleteGeneratedResponses } from "@/actions/generate";
 import { updateDocumentSubType, addDocument } from "@/actions/documents";
+import { GeneratedResponse } from "@/components/generated-response";
 
 type ExtractedRequest = {
   id: string;
   requestNumber: number;
   text: string;
+  generatedResponse: {
+    id: string;
+    pattern: string;
+    objectionTypes: string | null;
+    responseText: string;
+    crossReferenceNumber: number | null;
+  }[];
 };
 
 type ExtractedRequestsProps = {
@@ -34,6 +58,7 @@ type ExtractedRequestsProps = {
   discoverySubType: string | null;
   documentId: string;
   caseId: string;
+  hasComplaint: boolean;
 };
 
 export function ExtractedRequests({
@@ -41,6 +66,7 @@ export function ExtractedRequests({
   discoverySubType,
   documentId,
   caseId,
+  hasComplaint,
 }: ExtractedRequestsProps) {
   const router = useRouter();
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
@@ -54,6 +80,20 @@ export function ExtractedRequests({
   const [announcement, setAnnouncement] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const hasTriggeredRef = useRef(false);
+
+  // Generation state
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState({
+    count: 0,
+    total: 0,
+  });
+  const [generationError, setGenerationError] = useState<string | null>(null);
+  const [savedCount, setSavedCount] = useState(0);
+
+  // Determine if responses already exist
+  const hasResponses = currentRequests.some(
+    (r) => r.generatedResponse && r.generatedResponse.length > 0
+  );
 
   // Sync local state when server data changes (e.g., after router.refresh())
   useEffect(() => {
@@ -141,6 +181,98 @@ export function ExtractedRequests({
         "Could not extract requests from this PDF. The document may be a poor-quality scan."
       );
     }
+  }
+
+  async function handleGenerate(startFrom?: number) {
+    setIsGenerating(true);
+    setGenerationError(null);
+    setSavedCount(0);
+    setGenerationProgress({ count: 0, total: currentRequests.length });
+
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caseId,
+          documentId,
+          startFrom: startFrom || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const reader = response.body!
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const lines = value.split("\n");
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6);
+          if (data === "[DONE]") continue;
+
+          try {
+            const event = JSON.parse(data);
+            if (event.type === "progress") {
+              setGenerationProgress({
+                count: event.count,
+                total: event.total,
+              });
+            } else if (event.type === "complete") {
+              setIsGenerating(false);
+              setAnnouncement(
+                `All ${event.responses.length} responses generated`
+              );
+              toast.success(
+                `All ${event.responses.length} responses generated`
+              );
+              router.refresh();
+            } else if (event.type === "error") {
+              setIsGenerating(false);
+              setGenerationError(event.message);
+              setSavedCount(event.savedCount || 0);
+              if (event.savedCount > 0) {
+                router.refresh();
+              }
+            }
+          } catch {
+            // Skip unparseable lines
+          }
+        }
+      }
+    } catch {
+      setIsGenerating(false);
+      setGenerationError(
+        "Could not generate responses. The AI service may be temporarily unavailable."
+      );
+    }
+  }
+
+  async function handleRegenerate() {
+    const result = await deleteGeneratedResponses(documentId, caseId);
+    if (result.success) {
+      router.refresh();
+      handleGenerate();
+    } else {
+      toast.error("Failed to clear old responses.");
+    }
+  }
+
+  function handleContinueGeneration() {
+    const lastSavedNumber = Math.max(
+      ...currentRequests
+        .filter((r) => r.generatedResponse && r.generatedResponse.length > 0)
+        .map((r) => r.requestNumber),
+      0
+    );
+    handleGenerate(lastSavedNumber + 1);
   }
 
   // Loading skeleton state
@@ -287,57 +419,83 @@ export function ExtractedRequests({
             {currentRequests.map((req) => {
               const isLong = req.text.length > 100;
               const isExpanded = expandedIds.has(req.id);
+              const hasResponseForThis =
+                req.generatedResponse && req.generatedResponse.length > 0;
 
               return (
-                <div
-                  key={req.id}
-                  role={isLong ? "button" : "listitem"}
-                  tabIndex={isLong ? 0 : undefined}
-                  aria-expanded={isLong ? isExpanded : undefined}
-                  onClick={() => isLong && toggleExpand(req.id)}
-                  onKeyDown={(e) => {
-                    if (
-                      isLong &&
-                      (e.key === "Enter" || e.key === " ")
-                    ) {
-                      e.preventDefault();
-                      toggleExpand(req.id);
-                    }
-                  }}
-                  className={`rounded border border-border bg-card p-4 hover:bg-secondary ${
-                    isLong ? "cursor-pointer" : ""
-                  }`}
-                >
-                  <div className="flex items-start gap-2">
-                    {/* Chevron */}
-                    {isLong ? (
-                      isExpanded ? (
-                        <ChevronDown
-                          size={16}
-                          className="mt-0.5 shrink-0 text-muted-foreground"
-                        />
+                <div key={req.id}>
+                  {/* Request row */}
+                  <div
+                    role={isLong ? "button" : "listitem"}
+                    tabIndex={isLong ? 0 : undefined}
+                    aria-expanded={isLong ? isExpanded : undefined}
+                    onClick={() => isLong && toggleExpand(req.id)}
+                    onKeyDown={(e) => {
+                      if (
+                        isLong &&
+                        (e.key === "Enter" || e.key === " ")
+                      ) {
+                        e.preventDefault();
+                        toggleExpand(req.id);
+                      }
+                    }}
+                    className={`${
+                      hasResponseForThis ? "rounded-t-md" : "rounded"
+                    } border border-border bg-card p-4 hover:bg-secondary ${
+                      isLong ? "cursor-pointer" : ""
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      {/* Chevron */}
+                      {isLong ? (
+                        isExpanded ? (
+                          <ChevronDown
+                            size={16}
+                            className="mt-0.5 shrink-0 text-muted-foreground"
+                          />
+                        ) : (
+                          <ChevronRight
+                            size={16}
+                            className="mt-0.5 shrink-0 text-muted-foreground"
+                          />
+                        )
                       ) : (
-                        <ChevronRight
-                          size={16}
-                          className="mt-0.5 shrink-0 text-muted-foreground"
-                        />
-                      )
-                    ) : (
-                      <div className="w-4" />
-                    )}
-                    {/* Request number */}
-                    <span className="w-6 shrink-0 text-right text-sm text-muted-foreground">
-                      {req.requestNumber}.
-                    </span>
-                    {/* Text */}
-                    <p className="text-sm text-foreground">
-                      {isExpanded
-                        ? req.text
-                        : isLong
-                          ? req.text.slice(0, 100) + "..."
-                          : req.text}
-                    </p>
+                        <div className="w-4" />
+                      )}
+                      {/* Request number */}
+                      <span className="w-6 shrink-0 text-right text-sm text-muted-foreground">
+                        {req.requestNumber}.
+                      </span>
+                      {/* Text */}
+                      <p className="text-sm text-foreground">
+                        {isExpanded
+                          ? req.text
+                          : isLong
+                            ? req.text.slice(0, 100) + "..."
+                            : req.text}
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Inline generated response block */}
+                  {hasResponseForThis && (
+                    <GeneratedResponse
+                      pattern={req.generatedResponse[0].pattern}
+                      objectionTypes={req.generatedResponse[0].objectionTypes}
+                      responseText={req.generatedResponse[0].responseText}
+                      crossReferenceNumber={
+                        req.generatedResponse[0].crossReferenceNumber
+                      }
+                    />
+                  )}
+
+                  {/* Skeleton placeholder during generation */}
+                  {isGenerating && !hasResponseForThis && (
+                    <div className="rounded-b-md border-x border-b border-border bg-card p-4">
+                      <Skeleton className="h-3.5 w-full rounded" />
+                      <Skeleton className="mt-2 h-3.5 w-[80%] rounded" />
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -345,17 +503,155 @@ export function ExtractedRequests({
         )}
       </div>
 
-      {/* Generate Responses button */}
-      {(showRequests || showLoading) && (
-        <Button
-          className="mt-4 h-11 w-full cursor-not-allowed bg-[#C8653A] font-semibold text-white opacity-50"
-          disabled
-          aria-disabled="true"
-          aria-label="Generate Responses - coming soon"
-          title="Coming soon"
+      {/* Limitation banner -- shown when no complaint is uploaded */}
+      {!hasComplaint && (showRequests || hasResponses) && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="mt-4 flex items-start gap-2 rounded border border-border bg-muted p-4"
         >
-          Generate Responses
-        </Button>
+          <Info
+            size={16}
+            className="mt-0.5 shrink-0 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Responses generated without complaint context.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Upload a complaint and re-generate for better results.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Generation controls area */}
+      {showRequests && !isGenerating && !generationError && (
+        <>
+          {/* Generate Responses button -- when no responses exist */}
+          {!hasResponses && (
+            <Button
+              className="mt-4 h-11 w-full bg-[#C8653A] font-semibold text-white hover:bg-[#C8653A]/80"
+              onClick={() => handleGenerate()}
+              aria-label="Generate responses for all extracted requests"
+            >
+              Generate Responses
+            </Button>
+          )}
+
+          {/* Re-generate button -- when responses exist */}
+          {hasResponses && (
+            <AlertDialog>
+              <AlertDialogTrigger
+                render={
+                  <Button
+                    variant="outline"
+                    className="mt-4 h-11 w-full text-sm font-semibold"
+                  >
+                    <RefreshCw size={14} />
+                    Re-generate All Responses
+                  </Button>
+                }
+              />
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Re-generate all responses?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will delete all existing responses and generate new
+                    ones. Any previous responses will be permanently replaced.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleRegenerate}>
+                    Re-generate
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </>
+      )}
+
+      {/* Generating state -- streaming progress */}
+      {isGenerating && (
+        <div className="mt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              Generating responses...
+            </span>
+            <span className="text-sm tabular-nums text-muted-foreground">
+              {generationProgress.count} of {generationProgress.total}
+            </span>
+          </div>
+          <Progress
+            value={
+              generationProgress.total > 0
+                ? (generationProgress.count / generationProgress.total) * 100
+                : 0
+            }
+            className="mt-2 h-1"
+          />
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <Loader2
+              size={14}
+              className="animate-spin text-[#C8653A]"
+            />
+            <span className="text-sm text-muted-foreground">
+              This may take up to a minute...
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Error state with partial save (D-13) */}
+      {generationError && savedCount > 0 && (
+        <div
+          className="mt-4 rounded border border-border bg-card p-4"
+          role="alert"
+        >
+          <div className="flex items-center gap-2">
+            <AlertCircle size={16} className="text-destructive" />
+            <span className="text-sm text-foreground">
+              Generation stopped after {savedCount} of{" "}
+              {currentRequests.length} responses. Some responses were saved.
+            </span>
+          </div>
+          <Button
+            variant="outline"
+            className="mt-4 h-11 w-full text-sm font-semibold"
+            onClick={handleContinueGeneration}
+          >
+            <Play size={14} />
+            Continue Generation
+          </Button>
+        </div>
+      )}
+
+      {/* Error state with zero save */}
+      {generationError && savedCount === 0 && (
+        <div
+          className="mt-4 rounded border border-border p-6 text-center"
+          role="alert"
+        >
+          <AlertCircle size={24} className="mx-auto text-destructive" />
+          <p className="mt-2 text-sm text-foreground">
+            Could not generate responses. The AI service may be temporarily
+            unavailable.
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4"
+            onClick={() => handleGenerate()}
+          >
+            <RefreshCw size={14} />
+            Retry
+          </Button>
+        </div>
       )}
 
       {/* Hidden file input (for Upload new in non-error contexts) */}
