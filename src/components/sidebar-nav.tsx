@@ -26,7 +26,7 @@ export function SidebarNav({ cases }: SidebarNavProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-[280px] flex-shrink-0 flex-col border-r border-border bg-[var(--sidebar)]">
+    <aside className="sticky top-0 flex h-screen w-[280px] flex-shrink-0 flex-col border-r border-border bg-[var(--sidebar)]">
       {/* App name */}
       <div className="px-6 py-6">
         <span className="text-base font-semibold text-foreground">
