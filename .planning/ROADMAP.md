@@ -85,7 +85,7 @@ Plans:
   5. The AI does not fabricate document existence — defaults to "produced all documents" when document status is uncertain
 **Plans**: 3 plans
 Plans:
-- [ ] 04-01-PLAN.md — Database schema (generatedResponses table), Zod validation schema, generation prompt with Jessica's exact voice patterns
+- [x] 04-01-PLAN.md — Database schema (generatedResponses table), Zod validation schema, generation prompt with Jessica's exact voice patterns
 - [ ] 04-02-PLAN.md — SSE streaming Route Handler for Claude generation, server action for response cleanup, extended getCase query
 - [ ] 04-03-PLAN.md — Generation UI (functional Generate button, streaming progress, inline response display, re-generate flow, limitation banner, visual verification)
 **UI hint**: yes
@@ -157,7 +157,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. Foundation | 0/3 | Planning complete | - |
 | 2. File Upload | 0/3 | Planning complete | - |
 | 3. PDF Parsing & Request Extraction | 2/3 | In Progress|  |
-| 4. RFP Response Generation | 0/3 | Planning complete | - |
+| 4. RFP Response Generation | 1/3 | In Progress | - |
 | 5. Interrogatory Response Generation | 0/TBD | Not started | - |
 | 6. Review UI | 0/TBD | Not started | - |
 | 7. Document Assembly | 0/TBD | Not started | - |
